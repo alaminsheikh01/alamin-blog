@@ -1,30 +1,100 @@
 ---
-title: Introducing Multi-part Posts with Nested Routing
-date: '2021-05-02'
-tags: ['multi-author', 'next-js', 'feature']
+title: "Essential ES6 Methods in JavaScript You Should Know"
+date: "2024-11-13"
+tags: ['javascript']
 draft: false
 summary: 'The blog template supports posts in nested sub-folders. This can be used to group posts of similar content e.g. a multi-part course. This post is itself an example of a nested route!'
 ---
 
-# Nested Routes
 
-The blog template supports posts in nested sub-folders. This helps in organisation and can be used to group posts of similar content e.g. a multi-part series. This post is itself an example of a nested route! It's located in the `/data/blog/nested-route` folder.
+JavaScript ES6 (ECMAScript 2015) introduced a host of new methods that have transformed the way developers write cleaner, more efficient code. In this post, we'll explore some of the most useful ES6 methods that every JavaScript developer should be familiar with.
 
-## How
+## 1. Array.prototype.find()
 
-Simplify create multiple folders inside the main `/data/blog` folder and add your `.md`/`.mdx` files to them. You can even create something like `/data/blog/nested-route/deeply-nested-route/my-post.md`
+The `find()` method returns the first element in an array that satisfies a provided testing function. If no elements satisfy the testing function, it returns `undefined`.
 
-We use Next.js catch all routes to handle the routing and path creations.
+```jsx
+{
+const numbers = [1, 2, 3, 4, 5];
+const found = numbers.find((num) => num > 3);
+console.log(found); // Output: 4
+}
+```
 
-## Use Cases
+## 2. Array.prototype.findIndex()
 
-Here are some reasons to use nested routes
+Similar to `find()`, the `findIndex()` method returns the index of the first element that satisfies a testing function. If no elements satisfy the function, it returns `-1`.
 
-- More logical content organisation (blogs will still be displayed based on the created date)
-- Multi-part posts
-- Different sub-routes for each author
-- Internationalization (though it would be recommended to use [Next.js built-in i8n routing](https://nextjs.org/docs/advanced-features/i18n-routing))
+```jsx
+{
+const numbers = [1, 2, 3, 4, 5];
+const index = numbers.findIndex((num) => num > 3);
+console.log(index); // Output: 3
+}
+```
 
-## Note
+## 3. Array.prototype.includes()
 
-- The previous/next post links at bottom of the template are currently sorted by date. One could explore modifying the template to refer the reader to the previous/next post in the series, rather than by date.
+The `includes()` method checks if an array contains a certain element, returning `true` or `false` as appropriate.
+
+```jsx
+{
+const fruits = ["apple", "banana", "mango"];
+console.log(fruits.includes("banana")); // Output: true
+console.log(fruits.includes("grapes")); // Output: false
+}
+```
+
+## 4. `String.prototype.startsWith()` and `endsWith()`
+
+The `startsWith()` and `endsWith()` methods check if a string begins or ends with a specified substring, returning `true` or `false`.
+
+```jsx
+{
+const message = "Hello World";
+console.log(message.startsWith("Hello")); // Output: true
+console.log(message.endsWith("World")); // Output: true
+}
+```
+
+## 5. Array.prototype.map()
+
+The `map()` method creates a new array by applying a function to each element in the original array.
+
+```jsx
+{
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map((num) => num * 2);
+console.log(doubled); // Output: [2, 4, 6, 8, 10]
+}
+```
+
+## 6. Array.prototype.filter()
+
+The `filter()` method creates a new array containing elements that satisfy a given condition.
+
+```jsx
+{
+const numbers = [1, 2, 3, 4, 5];
+const even = numbers.filter((num) => num % 2 === 0);
+console.log(even); // Output: [2, 4]
+}
+```
+
+## 7. Object.assign()
+
+The `Object.assign()` method copies all enumerable properties from one or more source objects to a target object.
+
+```jsx
+{
+const target = { a: 1, b: 2 };
+const source = { b: 4, c: 5 };
+const returnedTarget = Object.assign(target, source);
+console.log(returnedTarget); // Output: { a: 1, b: 4, c: 5 }
+}
+```
+
+## Conclusion
+
+These ES6 methods can significantly enhance your JavaScript code by making it more readable, concise, and efficient. Getting comfortable with these methods will improve your coding skills and help you write better, modern JavaScript.
+
