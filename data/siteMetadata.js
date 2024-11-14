@@ -1,9 +1,9 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Alamin Blog',
+  title: 'Alamin Insights',
   author: 'Alamin Sheikh',
-  headerTitle: 'Alamin Blog',
-  description: 'This is a small blog application',
+  headerTitle: 'Alamin Insights',
+  description: 'A blog dedicated to programming tutorials, tips, and insights. Learn coding, software development techniques, and best practices with easy-to-follow guides and articles for developers of all levels',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://alamin-blog.vercel.app/',
@@ -12,8 +12,6 @@ const siteMetadata = {
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
   email: 'alaminsheikh9745@gmail.com',
   github: 'https://github.com/alaminsheikh01',
-
-  facebook: 'https://facebook.com',
   linkedin: 'https://www.linkedin.com/in/alaminsheikh/',
   locale: 'en-US',
   // set to true if you want a navbar fixed to the top
