@@ -1,0 +1,189 @@
+---
+title: "OOP as the Foundation of Programming 💡"
+date: "2024-11-14"
+tags: ['typescript','oop']
+draft: false
+summary: 'Object-Oriented Programming (OOP) is a programming paradigm that provides unique features to facilitate software design and development, making it more structured and manageable.'
+---
+
+
+**Object-Oriented Programming (OOP)** is a programming paradigm that provides unique features to facilitate software design and development, making it more structured and manageable. At its core, OOP is built on four fundamental principles:
+
+
+### 1. Encapsulation
+
+Encapsulation in `TypeScript` can be achieved using classes and private properties/methods. In TypeScript, the `private` keyword ensures properties are only accessible within the class.
+
+```ts
+class Car {
+    private color: string; // Private property
+
+    constructor(color: string) {
+        this.color = color;
+    }
+
+    // Getter method
+    getColor(): string {
+        return this.color;
+    }
+
+    // Setter method
+    setColor(color: string): void {
+        this.color = color;
+    }
+}
+
+const myCar = new Car("Red");
+console.log(myCar.getColor()); // Outputs: Red
+myCar.setColor("Blue");
+console.log(myCar.getColor()); // Outputs: Blue
+
+```
+
+### 2. Inheritance
+Inheritance allows us to create a new class, known as a subclass or child class, that inherits the properties and behaviors (methods) of an existing class, called the parent class or base class. Through inheritance, the child class gains access to all the attributes and methods of the parent class, making code reusable and enabling more effective programming.
+
+
+```ts
+class Vehicle {
+    move(): void {
+        console.log("The vehicle moves");
+    }
+}
+
+class Car extends Vehicle {
+    honk(): void {
+        console.log("The car honks");
+    }
+}
+
+const myCar = new Car();
+myCar.move(); // Outputs: The vehicle moves
+myCar.honk(); // Outputs: The car honks
+
+```
+
+### 3. Abstraction
+Abstraction focuses on hiding unnecessary details and only showing essential information to the user, making the system easier to understand. In essence, abstraction enables us to define a blueprint (abstract class) that outlines certain methods without providing the full implementation.
+
+An abstract class cannot be instantiated directly and requires a subclass to implement its abstract methods.
+
+
+```ts
+abstract class Animal {
+    abstract makeSound(): void; // Abstract method
+
+    move(): void {
+        console.log("The animal moves");
+    }
+}
+
+class Dog extends Animal {
+    makeSound(): void {
+        console.log("Woof! Woof!");
+    }
+}
+
+const myDog = new Dog();
+myDog.move();      // Outputs: The animal moves
+myDog.makeSound(); // Outputs: Woof! Woof!
+
+```
+
+
+### 4. Polymorphism
+Polymorphism allows methods in different classes to have the same name but different implementations.
+
+
+```ts
+class Animal {
+    makeSound(): void {
+        console.log("Some generic animal sound");
+    }
+}
+
+class Dog extends Animal {
+    makeSound(): void {
+        console.log("Woof! Woof!");
+    }
+}
+
+class Cat extends Animal {
+    makeSound(): void {
+        console.log("Meow! Meow!");
+    }
+}
+
+const animals: Animal[] = [new Dog(), new Cat()];
+animals.forEach(animal => animal.makeSound());
+// Outputs:
+// Woof! Woof!
+// Meow! Meow!
+
+```
+
+Polymorphism in Object-Oriented Programming (OOP) primarily involves two techniques: `Method Overriding and Method Overloading.` Let’s explore each of these in detail.
+
+#### 1. Method Overriding
+Method Overriding is a process where a subclass or child class redefines a method that already exists in its parent class. This allows the child class to provide its own specific implementation for the method, even though the method name remains the same. Method overriding is typically used in inheritance, where the subclass needs to implement the method in a way that fits its specific behavior.
+
+Example:
+Suppose we have an `Animal` class with a `makeSound()` method. Now, we can create `Dog` and `Cat` classes that inherit from `Animal`. Although each class will have a `makeSound()` method, they will override it to provide different implementations.
+
+
+```ts
+class Animal {
+    makeSound(): void {
+        console.log("Some generic animal sound");
+    }
+}
+
+class Dog extends Animal {
+    makeSound(): void {
+        console.log("Woof! Woof!");
+    }
+}
+
+class Cat extends Animal {
+    makeSound(): void {
+        console.log("Meow! Meow!");
+    }
+}
+
+const myDog = new Dog();
+const myCat = new Cat();
+
+myDog.makeSound(); // Outputs: Woof! Woof!
+myCat.makeSound(); // Outputs: Meow! Meow!
+
+```
+
+
+#### 2. Method Overloading
+Method Overloading is a technique where multiple methods in the same class share the same name but differ in parameters (type, number, or order). Method overloading allows a class to have different ways to handle calls to the same method name, based on the provided arguments. Although many programming languages (such as Java, C++) directly support method overloading, JavaScript doesn’t natively support it; TypeScript, however, can simulate method overloading using function signatures.
+
+
+```ts
+class Calculator {
+    // Overloaded method signatures
+    add(a: number, b: number): number;
+    add(a: string, b: string): string;
+
+    // Implementation of the method
+    add(a: any, b: any): any {
+        return a + b;
+    }
+}
+
+const calculator = new Calculator();
+console.log(calculator.add(5, 10)); // Outputs: 15
+console.log(calculator.add("Hello, ", "world!")); // Outputs: Hello, world!
+
+```
+
+
+**Note**: In JavaScript, you would typically achieve similar behavior by checking the types of arguments within the function itself.
+
+Summary
+- Method Overriding: Used in inheritance to redefine a parent class method in a child class, allowing the child class to have its own specific implementation.
+- Method Overloading: Enables a class to have multiple methods with the same name but different parameters, providing flexibility in how the method is called.
