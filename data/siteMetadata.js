@@ -7,7 +7,7 @@ const siteMetadata = {
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://alamin-blog.vercel.app/',
-  siteRepo: 'https://github.com/alaminsheikh01/tailwind-css-starter-blog',
+  siteRepo: 'https://github.com/alaminsheikh01/alamin-blog',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
   email: 'alaminsheikh9745@gmail.com',

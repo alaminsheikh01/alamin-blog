@@ -1,0 +1,172 @@
+---
+title: "A Guide to Using React Query in Your React App"
+date: "2024-11-14"
+tags: ['javascript','react']
+draft: false
+summary: 'Learn how to set up and use React Query for efficient data fetching and caching in React applications, with examples and best practices.'
+---
+
+
+## A Guide to Using React Query in Your React App
+
+React Query, part of the TanStack Query library, is a fantastic tool for managing server-side state in React applications. It simplifies data fetching, caching, synchronization, and error handling, making it a great fit for apps with dynamic or frequently changing data.
+
+### 1. Setting Up React Query
+
+First, you’ll need to install React Query:
+
+```bash
+npm install @tanstack/react-query
+```
+
+React Query also requires a `QueryClientProvider` setup in the main file of your application to provide context across your entire app.
+
+Basic Folder Structure
+Here's an example of a basic folder structure you might have:
+
+```jsx
+my-app/
+├── src/
+│   ├── App.js
+│   ├── index.js
+│   ├── components/
+│   ├── services/
+│   └── hooks/
+├── package.json
+└── README.md
+```
+
+
+### Setting Up `index.js`
+In the main entry file (index.js), initialize the QueryClient and wrap your application with `QueryClientProvider`.
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </React.StrictMode>
+);
+
+reportWebVitals();
+
+```
+
+### Creating `App.js` with React Query
+In `App.js`, let’s use React Query to fetch data from a sample API, such as JSONPlaceholder.
+
+1. Define an async function to fetch data.
+2. Use the `useQuery` hook to handle fetching and manage data.
+
+
+```jsx
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+
+function App() {
+  // Define the fetch function
+  const fetchPosts = async () => {
+    const { data } = await axios.get('https://jsonplaceholder.typicode.com/posts');
+    return data;
+  };
+
+  // Use useQuery with an object argument compatible with React Query v5
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['posts'],
+    queryFn: fetchPosts,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
+
+  return (
+    <div className="App">
+      <h2>Posts</h2>
+      <ul>
+        {data.map((post) => (
+          <li key={post.id}>{post.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+### Breakdown of `useQuery`
+Here’s what’s happening in the `useQuery` hook:
+
+- queryKey: A unique key for this query, used for caching and identifying this specific data.
+- queryFn: The function that fetches data (in this case, `fetchPosts`).
+- isLoading: A boolean that’s `true` while the data is loading.
+- isError: A boolean that’s `true` if there’s an error in fetching the data.
+- error: Contains the error object if the request fails.
+
+
+### **Handling Caching and Refetching with React Query Options**
+React Query provides additional options to control caching and refetching behavior.
+
+```jsx
+const { data, isLoading, isError, error } = useQuery({
+  queryKey: ['posts'],
+  queryFn: fetchPosts,
+  staleTime: 1000 * 60 * 5, // Data is fresh for 5 minutes
+  cacheTime: 1000 * 60 * 10, // Cache data for 10 minutes
+  refetchOnWindowFocus: false, // Don’t refetch when window regains focus
+});
+
+```
+
+- staleTime: The duration (in ms) data is considered “fresh.” Set here to 5 minutes (300,000 ms).
+- cacheTime: The time cached data remains in memory after a query becomes inactive.
+- refetchOnWindowFocus: Disables automatic refetching when users switch back to the app tab.
+
+### Example of React Query with Devtools
+
+
+React Query provides Devtools to help monitor queries during development.
+
+1. Install React Query Devtools:
+```bash
+npm install @tanstack/react-query-devtools
+```
+2. Update index.js to include Devtools:
+```jsx
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+<QueryClientProvider client={queryClient}>
+  <App />
+  <ReactQueryDevtools initialIsOpen={false} />
+</QueryClientProvider>
+
+```
+
+### Final Output Example
+When running this code, you should see:
+
+- A loading spinner or text while the request is pending.
+- An error message if the request fails.
+- A list of post titles upon a successful fetch.
+
+
+Here’s a sample screenshot of the final output:
+### Benefits of React Query
+
+- Automatic Caching: Stores data locally and keeps it fresh with configurable settings.
+- Efficient Refetching: Refetches data only when necessary, saving on bandwidth.
+- Out-of-the-box Devtools: Provides query inspection for easier debugging.
+- Error Handling: Built-in error management with isError and error handling.
+- React Query is an excellent addition for React applications that deal with server-side state, providing clean data management, refetching strategies, and efficient caching.
