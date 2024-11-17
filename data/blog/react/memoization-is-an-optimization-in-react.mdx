@@ -1,0 +1,178 @@
+---
+title: "Memoization is an optimization in React"
+date: "2024-11-18"
+tags: ['react']
+draft: false
+summary: 'In React, Memoization is an optimization technique used to prevent unnecessary re-renders of components by "remembering" the previous computation results.'
+---
+
+
+In React **Memoization** is an optimization technique used to prevent unnecessary re-renders of components by `remembering` the previous computation results. Memoization stores the result of expensive function calles and resuses it when the same inputs occur, which can significantly improve performance, especially in complex applications.
+
+React provides several hooks and utilities to implement memoization, such as:
+
+1. `React.memo()`
+2. `useMemo()`
+3. `useCallback()`
+
+Let’s go through each with clear examples.
+
+
+### 1. `React.memo()`
+`React.memo()` is a higher-order component (HOC) that memoizes functional components. It only re-renders the component if its props have changed. This is useful for preventing unnecessary re-renders of child components that don’t need to update.
+
+Example using `React.memo()`
+
+
+```jsx
+import React, { useState } from 'react';
+
+// Expensive child component that we want to memoize
+const ExpensiveComponent = React.memo(({ count }) => {
+  console.log('Rendering ExpensiveComponent');
+  return <div>Count: {count}</div>;
+});
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [otherState, setOtherState] = useState(false);
+
+  return (
+    <div>
+      <h1>Optimizing Performance with React.memo</h1>
+      <ExpensiveComponent count={count} />
+
+      <button onClick={() => setCount(count + 1)}>Increment Count</button>
+      <button onClick={() => setOtherState(!otherState)}>
+        Toggle Other State
+      </button>
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+
+#### Explanation:
+
+- `ExpensiveComponent` is memoized using `React.memo()`.
+- Even when `otherState` changes, `ExpensiveComponent` won’t re-render because `count` (its prop) hasn’t changed.
+- This reduces the re-renders of `ExpensiveComponent`, saving processing time when `otherState` changes.
+
+
+
+### 2. `useMemo()`
+`useMemo()` is a React hook that memoizes the result of a computation, preventing recalculation if dependencies haven’t changed. It’s useful for optimizing expensive calculations.
+
+Example using `useMemo()`
+
+
+```jsx
+import React, { useState, useMemo } from 'react';
+
+// A function simulating an expensive calculation
+function expensiveCalculation(num) {
+  console.log('Calculating...');
+  for (let i = 0; i < 1000000000; i++) {} // Simulated delay
+  return num * 2;
+}
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [input, setInput] = useState('');
+
+  // Memoize the result of the expensive calculation
+  const doubledValue = useMemo(() => expensiveCalculation(count), [count]);
+
+  return (
+    <div>
+      <h1>Optimizing Performance with useMemo</h1>
+      <div>Doubled Value: {doubledValue}</div>
+      
+      <button onClick={() => setCount(count + 1)}>Increment Count</button>
+      
+      {/* This input changes frequently but does not trigger recalculation */}
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Type here..."
+      />
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+
+#### Explanation:
+
+- `useMemo()` memoizes the result of `expensiveCalculation(count)`.
+- The calculation only runs when `count` changes, even though `input` changes frequently.
+- This prevents the expensive calculation from re-running unnecessarily when `input` changes, improving performance.
+
+
+### 3. `useCallback()`
+`useCallback()` is similar to `useMemo()`, but it memoizes function definitions instead of values. This is particularly useful for passing stable callback functions to child components, preventing their re-renders when the parent re-renders.
+
+
+Example using `useCallback()`
+
+
+
+```jsx
+import React, { useState, useCallback } from 'react';
+
+const ChildComponent = React.memo(({ onButtonClick }) => {
+  console.log('Rendering ChildComponent');
+  return <button onClick={onButtonClick}>Click Me</button>;
+});
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  // Memoize the click handler function to prevent re-render of ChildComponent
+  const handleClick = useCallback(() => {
+    console.log('Button clicked');
+  }, []);
+
+  return (
+    <div>
+      <h1>Optimizing Performance with useCallback</h1>
+      <p>Count: {count}</p>
+      
+      <button onClick={() => setCount(count + 1)}>Increment Count</button>
+      
+      {/* Passing the memoized function to ChildComponent */}
+      <ChildComponent onButtonClick={handleClick} />
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+
+
+#### Explanation:
+
+- `handleClick` is wrapped with `useCallback()` to memoize it.
+- Even when `count` changes, `handleClick` does not change, preventing `ChildComponent` from re-rendering.
+- This keeps `ChildComponent` stable, improving performance by avoiding unnecessary renders.
+
+
+
+### Summary of Memoization Techniques
+
+- `React.memo()`: Prevents re-renders of a component if its props haven’t changed.
+- `useMemo()`: Memoizes the result of a function, optimizing performance for expensive calculations.
+- `useCallback()`: Memoizes a function definition, preventing it from being redefined and causing unnecessary re-renders of child components.
+
+
+
+These techniques help optimize React applications by reducing the number of renders and recalculations, leading to smoother, more performant applications, especially in scenarios with complex computations or large component trees.
